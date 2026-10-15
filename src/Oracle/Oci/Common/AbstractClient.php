@@ -69,7 +69,9 @@ abstract class AbstractClient
         $this->client = new Client([
             'handler' => $this->stack,
             'stream' => true,
-            'debug' => $this->logger()->scope("middleware\\guzzle\\verbose")->isDebugEnabled()
+            'debug' => $this->logger()->scope("middleware\\guzzle\\verbose")->isDebugEnabled(),
+            'connect_timeout' => 10,
+            'timeout' => 30,
         ]);
     }
 
