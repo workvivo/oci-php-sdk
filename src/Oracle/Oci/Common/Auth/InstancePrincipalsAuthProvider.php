@@ -137,7 +137,7 @@ class CachingSessionKeySupplier implements SessionKeySupplierInterface
         Logger::logger(static::class)->debug("Refreshing keys...");
         $this->inner->refreshKeys();
         $this->cacheKeyPair();
-        Logger::logger(static::class)->debug("Refreshed keys, private key is now a resource: " . $this->cachedKeyPair->getPrivateKey());
+        Logger::logger(static::class)->debug("Refreshed keys, private key is now: " . StringUtils::get_type_or_class($this->cachedKeyPair->getPrivateKey()));
     }
 
     public function getKeyPassphrase()
@@ -153,10 +153,10 @@ class CachingSessionKeySupplier implements SessionKeySupplierInterface
             if (!$parsedKey) {
                 throw new InvalidArgumentException('Error reading private key');
             }
-            Logger::logger(static::class)->debug("Converted string private key to " . StringUtils::get_type_or_class($parsedKey) . ": $parsedKey");
+            Logger::logger(static::class)->debug("Converted string private key to " . StringUtils::get_type_or_class($parsedKey));
         } else {
             $parsedKey = $keyPair->getPrivateKey();
-            Logger::logger(static::class)->debug("Private key was already a " . StringUtils::get_type_or_class($parsedKey) . ": $parsedKey");
+            Logger::logger(static::class)->debug("Private key was already a " . StringUtils::get_type_or_class($parsedKey));
         }
         $this->cachedKeyPair = new KeyPair($keyPair->getPublicKey(), $parsedKey);
     }
